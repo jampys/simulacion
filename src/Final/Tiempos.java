@@ -36,6 +36,7 @@ public class Tiempos {
         return tiempo;
     }
     
+    
     public static void main(String[] args){
         
         Tiempos ti=new Tiempos();
