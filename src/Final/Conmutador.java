@@ -35,7 +35,7 @@ public class Conmutador {
        }
    }
    
-   public int getOrigen(){ //selecciona el origen de la llamada OJO DEVUELVE EL INDICE, NO EL NUMERO
+   public int getOrigen(){ //selecciona el origen de la llamada
        int u;
        do{
            float rnd=(float)Math.random();
@@ -44,7 +44,8 @@ public class Conmutador {
        }
        while(telefonos.get(0).estadoTelefono==1); //hacer mientras el telefono este ocupado
        
-       return u;
+       //return u;
+       return telefonos.get(u).nroTelefono;
    }
    
    
@@ -83,7 +84,7 @@ public class Conmutador {
         public static void main(String []args){
             Conmutador a=new Conmutador(100, 1000);
             a.getTelefonos();
-            System.out.println("El telefono de origen es "+telefonos.get(a.getOrigen()).nroTelefono);
+            System.out.println("El telefono de origen es "+a.getOrigen());
         }
 }
 
