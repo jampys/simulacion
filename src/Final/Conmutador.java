@@ -28,26 +28,46 @@ public class Conmutador {
        }    
    }
    
-   public void getTelefonos(){
-       System.out.println("LISTADO DE TELEFONOS CON LOS QUE OPERA EL CONMUTADOR");
-       for(int i=0; i<cantTelefonos; i++){
-           System.out.println("Nro telefono: "+telefonos.get(i).getNroTelefono()+" Estado: "+telefonos.get(i).getEstadoTelefono());    
+   
+   public int getOrigen(){ //selecciona el origen de la llamada, y pone estado en ocupado
+       int u;
+       do{
+           float rnd=(float)Math.random();
+           u=(int)(0+((0+cantTelefonos-1)-0)*rnd);
        }
+       while(telefonos.get(u).estadoTelefono==1); //hacer mientras el telefono este ocupado
+
+       //System.out.println("El u es "+u);
+       telefonos.get(u).setEstadoTelefono(1); //cambia el estado del telefono a ocupado
+       return telefonos.get(u).nroTelefono; //devuelve un telefono no ocupado
    }
    
-   public int getOrigen(){ //selecciona el origen de la llamada
+   public int getDestino(int origen){ //selecciona el destino de la llamada, y pone estado en ocupado
        int u;
        do{
            float rnd=(float)Math.random();
            u=(int)(0+((0+cantTelefonos-1)-0)*rnd);
            //System.out.println("El u es "+u);
        }
-       while(telefonos.get(0).estadoTelefono==1); //hacer mientras el telefono este ocupado
-       
-       //return u;
-       return telefonos.get(u).nroTelefono;
+       while(telefonos.get(u).nroTelefono==origen); //hacer mientras el telefono sea igual al origen
+      
+       telefonos.get(u).setEstadoTelefono(1); //cambia el estado del telefono a ocupado
+       return telefonos.get(u).nroTelefono; //devuelve un telefono no ocupado
    }
    
+   
+      public void getTelefonos(){
+       System.out.println("LISTADO DE TELEFONOS CON LOS QUE OPERA EL CONMUTADOR");
+       for(int i=0; i<cantTelefonos; i++){
+           System.out.println("Nro telefono: "+telefonos.get(i).getNroTelefono()+" Estado: "+telefonos.get(i).getEstadoTelefono());    
+       }
+   }
+      
+   
+      public void freeTelefono(int nroTelefono){ //metodo para settear estado del telefno en libre, cuando termina una llamada
+          telefonos.get(nroTelefono-desde).setEstadoTelefono(0);
+      }
+      
    
    //*************************INNERCLASS TELEFONO************************************
    
@@ -83,8 +103,16 @@ public class Conmutador {
       
         public static void main(String []args){
             Conmutador a=new Conmutador(100, 1000);
+            int origen=a.getOrigen();
+            int destino=a.getDestino(origen);
+            System.out.println("El telefono de origen es "+origen);
+            System.out.println("El telefono de destino es "+destino);
             a.getTelefonos();
-            System.out.println("El telefono de origen es "+a.getOrigen());
+            
+            a.freeTelefono(origen);
+            a.freeTelefono(destino);
+            a.getTelefonos();
+            
         }
 }
 
