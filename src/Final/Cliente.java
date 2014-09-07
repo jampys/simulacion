@@ -10,13 +10,24 @@ public class Cliente {
     public float incioAtencion; 
     //public float tiempoServicio; 
     public float clientesEnCola;
-    //public int estado; //1 dentro del sistema, 2 fuera del sistema
+    public String estado; //exitosa, sin enlace, ocupada
+    //Agregados
+    public int origen;
+    public int destino;
     
     
-    public Cliente(int nroCliente, float tiempoArribo){
+    public Cliente(int nroCliente, float tiempoArribo){ //constructor 1
         this.nroCliente=nroCliente;
         this.tiempoArribo=tiempoArribo;
         //this.estado=estado;
+    }
+    
+    public Cliente(int nroCliente, float tiempoArribo, int origen, int destino){ //constructor 2
+        this.nroCliente=nroCliente;
+        this.tiempoArribo=tiempoArribo;
+        this.origen=origen;
+        this.destino=destino;
+        
     }
    
     
