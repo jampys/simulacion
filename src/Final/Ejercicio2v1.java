@@ -1,17 +1,18 @@
 
 package Final;
 
+import FinalPruebas.EntradaDatos;
 import java.util.ArrayList;
-import FinalPruebas.*;
 
 
-public class Ejercicio1v1 {
+public class Ejercicio2v1 {
 
     private float TE; //tiempos entre llegada
     private float TS; //tiempos de servicio
     protected float TM; //tiempo de reloj de la simulacion (tiempo actual)
     protected float AT; // tiempo de siguiente llegada
     private float DT; //tiempo de siguiente salida
+    private int WL; // longitud de la cola de espera
     protected int MX; //tiempo maximo de simulacion (fin de la simulacion)
     
     protected int NA; //numero de llegadas hasta el instante TM
@@ -20,17 +21,23 @@ public class Ejercicio1v1 {
     
     protected ArrayList<Cliente> clientes;
     protected ArrayList<Evento> eventos;
+    //probando solucion a fallo
+        protected ArrayList<Cliente> cola;
+    //fin probando
     
     protected int cantEnlaces;
     protected int cantTelefonos; //telefono=linea
     protected Conmutador con;
     protected int exitosas; //cantidad de exitosas
+    protected int faltaEnlace; //cantidad de falta de enlace
     
-    public Ejercicio1v1(int MX, int cantEnlaces, int cantTelefonos){
+    public Ejercicio2v1(int MX, int cantEnlaces, int cantTelefonos){
         this.AT=0;
         this.DT=9999;
+        this.WL=0;
         this.MX=MX; 
         this.exitosas=0;
+        this.faltaEnlace=0;
      
         this.cantEnlaces=cantEnlaces;
         this.cantTelefonos=cantTelefonos;
@@ -41,6 +48,10 @@ public class Ejercicio1v1 {
      
         clientes=new ArrayList();
         eventos=new ArrayList();
+        //probando solucion a fallo
+        cola=new ArrayList();
+        //fin probando
+        
         
         Evento primerEvento=new Evento(0, 1, 0);
         eventos.add(primerEvento);
@@ -66,12 +77,7 @@ public class Ejercicio1v1 {
     
     public void simular(){
         do{
-            //Agregado pra encontrar defecto
             //System.out.println("bucle infinito");
-            //System.out.println("El n es: "+n);
-            //System.out.println("El tiemo actual es: "+convertirAMinutos(eventos.get(0).tiempo));
-            //this.imprimirListaEventos();
-            //fin agregado para encontrar defecto
             this.ordenarEventos();
             
             //****************PROCESAR UNA LLEGADA. CASO 1*********************************
@@ -80,7 +86,7 @@ public class Ejercicio1v1 {
                 TM=eventos.get(0).tiempo;
                 n=n+1;
                 NA=NA+1;
-                   
+                
                 int v[];
                 //pongo este codigo para cortar el bucle infinito cuando no encuentra origen
                 if(con.existeTelefonoLibre()==0){
@@ -112,20 +118,38 @@ public class Ejercicio1v1 {
                     clientes.get(NA-1).estado="Exitosa";
                 }
                 else{ //no hay ningun enlace libre o el destino esta ocupado
-                    
-                    if(n>cantEnlaces) clientes.get(NA-1).estado="sin enlace";
-                    else clientes.get(NA-1).estado="ocupada";
-                    
-                    n=n-1;  //IMPORTANTE: Si la llamada no es atendida se debe descontar de n
-                    clientes.get(NA-1).tiempoSalida=0;
-                    clientes.get(NA-1).incioAtencion=0;  
-                    
+                    //OJO PUEDE SUCEDER QUE no haya enlaces y tambien este ocupado el destino
+                    if(v[0]==1){ //si el destino esta ocupado
+                        clientes.get(NA-1).estado="ocupada";
+                        n=n-1;  //IMPORTANTE: Si la llamada da ocupado se debe descontar de n y ND+1
+                        ND=ND+1;
+                        clientes.get(NA-1).tiempoSalida=0;
+                        clientes.get(NA-1).incioAtencion=0; 
+                      
+                        
+                    }else{ //si el destino no esta ocupado entonces entro por no tener enlace libre
+                        clientes.get(NA-1).estado="sin enlace";
+                        WL=WL+1; 
+                        //Agregados para ocupar/desocupar telefono
+                        exitosas++; //incrementa en 1 la propo
+                        faltaEnlace++;
+                        con.busyTelefono(origen);
+                        con.busyTelefono(destino);
+                        //Fin agregados
+                        
+                        //probando solucion a fallo
+                        cola.add(cli);
+                        //fin probando
+                    }
+                       
                 }
    
+                //clientes.get(NA-1).clientesEnCola=(NA-ND-cantEnlaces<0)? 0:NA-ND-cantEnlaces; //operador ternario
+            
                 float proximoArribo=TM+this.generarTE(); //calcula el proximo arribo
                 Evento eve1=new Evento(proximoArribo, 1, NA);
                 eventos.add(eve1);
-             
+   
             }
             //****************************************************************************
             
@@ -144,17 +168,39 @@ public class Ejercicio1v1 {
                 //FIN AGREGADO
                 eventos.remove(0);
                 
+                if(WL>0){ //WL>0. Si hay alguien en la cola
+                    WL=WL-1;
+                    
+                    //probando solucion a fallo
+                    int idxCli=cola.get(0).nroCliente-1;
+                    cola.remove(0);
+                    //fin probando
+                    float tiempoSalida=TM+this.generarTS(); //calcula el tiempo de salida
+                    //Evento eve2=new Evento(tiempoSalida, 2, ND+cantEnlaces-1);
+                    Evento eve2=new Evento(tiempoSalida, 2, idxCli);
+                    eventos.add(eve2);
+                    
+                    //PROBANDO//OJO MUY IMPORTANE
+                    //para 2 servidores ND+1
+                    //para 3 servidores ND+2
+                    //para 4 servidores ND+3 .... para n servidores ND+cantEnlaces-1
+                    //clientes.get(ND+cantEnlaces-1).incioAtencion=TM;
+                    //clientes.get(ND+cantEnlaces-1).tiempoSalida=tiempoSalida; //calcula el tiempo de salida
+                    clientes.get(idxCli).incioAtencion=TM;
+                    clientes.get(idxCli).tiempoSalida=tiempoSalida; //calcula el tiempo de salida
+                    //clientes.get(ND+cantEnlaces-1).clientesEnCola=WL;  
+                }
                 
             }
             //*******************************************************************************
             
             
             //*********************************CASO 3*********************************
-            //else if(eventos.get(0).tiempo>MX && n>0){
-            else if(eventos.get(0).tiempo>MX){
+            else if(eventos.get(0).tiempo>MX && n>0){
                   //System.out.println("SE EJECUTA CASO 3. Con evento tipo "+eventos.get(0).tipoEvento);
-      
-                  if(eventos.get(0).tipoEvento==1){  //para asegurar que no haya eventos de ingreso despues de MX
+                  //this.imprimirListaEventos();
+                  
+                  if(eventos.get(0).tipoEvento==1){ //para asegurar que no haya eventos de ingreso despues de MX
                       eventos.remove(0);
                   }
                   else{     
@@ -168,7 +214,26 @@ public class Ejercicio1v1 {
                     con.freeTelefono(destino);
                     //FIN AGREGADO
                     eventos.remove(0);
-                             
+                  
+                    if(n>=cantEnlaces){
+                        WL=WL-1;
+                        //probando solucion a fallo
+                        int idxCli=cola.get(0).nroCliente-1;
+                        cola.remove(0);
+                        //fin probando
+                        
+                        float tiempoSalida=TM+this.generarTS(); //calcula el tiempo de salida
+                        //Evento eve3=new Evento(tiempoSalida, 2, NA-1);
+                        Evento eve3=new Evento(tiempoSalida, 2, idxCli);
+                        eventos.add(eve3);
+                        //this.ordenarEventos();
+                      
+                        //clientes.get(ND+cantEnlaces-1).incioAtencion=TM;
+                        //clientes.get(ND+cantEnlaces-1).tiempoSalida=tiempoSalida; //calcula el tiempo de salida
+                        clientes.get(idxCli).incioAtencion=TM;
+                        clientes.get(idxCli).tiempoSalida=tiempoSalida; //calcula el tiempo de salida
+                        //clientes.get(ND+cantEnlaces-1).clientesEnCola=WL; 
+                    }
                   }
                   
                   if(eventos.isEmpty()){ //condicion de corte del bucle infinito
@@ -176,41 +241,40 @@ public class Ejercicio1v1 {
                   }
                                       
             }
-            
+   
                
         }
-        
         while(true);
     }
     
     public void imprimirResultados(){
  
-    //System.out.println("MX (fin simulacion): "+MX);
-    //System.out.println("TM (tiempo actual) "+TM);
-    //System.out.println("AT (proximo arribo) "+AT);
-    //System.out.println("DT (proxima salida) "+DT);
+        System.out.println("\n******** LISTADO DE CLIENTES PROCESADOS EN EL SISTEMA ***********\n");
+        System.out.println("Cantidad de enlaces: "+cantEnlaces);
+        System.out.println("Cantidad de telefonos: "+cantTelefonos);
+        float proporcion=(float)exitosas/clientes.size();
+        float tiempoEspera=0;
     
-    //System.out.println("\nNumero total de llegadas: "+NA);
-    //System.out.println("Numero total de salidas: "+ND);
-    //System.out.println("Numero de clientes en el sistema: "+n);
-    
-    System.out.println("\n******** LISTADO DE CLIENTES PROCESADOS EN EL SISTEMA ***********\n");
-    System.out.println("Cantidad de enlaces: "+cantEnlaces);
-    System.out.println("Cantidad de telefonos: "+cantTelefonos);
-    float proporcion=(float)exitosas/clientes.size();
-    
-    for(int i=0; i<clientes.size(); i++){
-        System.out.println("Nro cliente:"+clientes.get(i).nroCliente+
+        for(int i=0; i<clientes.size(); i++){
+            System.out.println("Nro cliente:"+clientes.get(i).nroCliente+
                            " | Tiempo arribo:"+convertirAMinutos(clientes.get(i).tiempoArribo)+
                            " | Inicio Atencion:"+convertirAMinutos(clientes.get(i).incioAtencion)+
                            " | Tiempo salida:"+convertirAMinutos(clientes.get(i).tiempoSalida)+
                            " | Origen:"+clientes.get(i).origen+
                            " | Destino: "+clientes.get(i).destino+
                            " | Estado: "+clientes.get(i).estado);
+        //para calcular el tiempo medio de espera
+            if(clientes.get(i).incioAtencion>=clientes.get(i).tiempoArribo){
+                tiempoEspera+=clientes.get(i).incioAtencion-clientes.get(i).tiempoArribo;
+            }
+        
         }
    
-    System.out.println("\nProporcion de exitosas: "+Math.rint(proporcion*1000)/1000);
-    //Redondea a 3 decimales: https://ar.answers.yahoo.com/question/index?qid=20130520185213AAOxhOo
+        System.out.println("\nProporcion de exitosas: "+Math.rint(proporcion*1000)/1000);
+        //Redondea a 3 decimales: https://ar.answers.yahoo.com/question/index?qid=20130520185213AAOxhOo
+        System.out.println("Tiempo promedio de espera (por falta de enlace): "+convertirAMinutos((float)tiempoEspera/faltaEnlace));
+        //No considera las Exitosas, solo las sin enlace.
+    
     }
     
    
@@ -230,7 +294,7 @@ public class Ejercicio1v1 {
     public void imprimirListaEventos(){
         System.out.println("******LISTA EVENTOS*******");
         for(int i=0; i<eventos.size(); i++){   
-            System.out.println("Tipo evento "+eventos.get(i).tipoEvento +" - Tiempo evento "+convertirAMinutos(eventos.get(i).tiempo));
+            System.out.println("Tipo evento "+eventos.get(i).tipoEvento +" - Tiempo evento "+eventos.get(i).tiempo);
         }
         System.out.println("");
     }
@@ -261,8 +325,8 @@ public class Ejercicio1v1 {
         int cantTelefonos=ed.getCantTelefonos();
         int cantEnlaces=ed.getCantEnlaces();
         int tiempoSimulacion=ed.getTiempoSimulacion();
-        
-        Ejercicio1v1 sim=new Ejercicio1v1(tiempoSimulacion, cantEnlaces, cantTelefonos);
+   
+        Ejercicio2v1 sim=new Ejercicio2v1(tiempoSimulacion, cantEnlaces, cantTelefonos);
         sim.simular();
         sim.imprimirResultados();
         

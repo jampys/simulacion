@@ -32,7 +32,7 @@ public class Conmutador {
    public int getOrigen(){ //selecciona el origen de la llamada
        int u;
        do{
-           System.out.println("Entra en bucle infinito al intentar obtener ORIGEN");
+           //System.out.println("Entra en bucle infinito al intentar obtener ORIGEN");
            float rnd=(float)Math.random();
            //u=(int)(0+((0+cantTelefonos-1)-0)*rnd);
            u=(int)(0+((0+cantTelefonos)-0)*rnd);
@@ -87,6 +87,13 @@ public class Conmutador {
           telefonos.get(nroTelefono-desde).setEstadoTelefono(1);
       }
       
+      public int existeTelefonoLibre(){ //1 si existe, 0 no existe
+          for(int i=0; i<cantTelefonos; i++){
+              if(telefonos.get(i).estadoTelefono==0) return 1;//si el telefono esta libre
+          }
+          return 0;
+      }
+      
    
    //*************************INNERCLASS TELEFONO************************************
    
@@ -129,11 +136,19 @@ public class Conmutador {
             int destino=v[1];
             System.out.println("El telefono de origen es "+origen);
             System.out.println("El telefono de destino es "+destino);
+            System.out.println("Existe telefono libre? "+a.existeTelefonoLibre());
             a.getTelefonos();
             
             //a.freeTelefono(origen);
             //a.freeTelefono(destino);
             //a.getTelefonos();
+            
+            for(int i=0; i<cantTelefonos; i++){
+              telefonos.get(i).setEstadoTelefono(1);
+            }
+            System.out.println("Existe telefono libre? "+a.existeTelefonoLibre());
+            
+            
             
         }
 }

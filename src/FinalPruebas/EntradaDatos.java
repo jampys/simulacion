@@ -60,12 +60,36 @@ public class EntradaDatos {
     
     }
     
+    public int getTiempoSimulacion(){
+        Scanner sc=new Scanner(System.in);
+        int tiempoSimulacion;
+        boolean b;
+        String cadenaAEvaluar;
+        do{ //asegura que el valor ingresado este en el intervalo [1, 36000]
+            
+            do{ //asegura que el valor ingresado sea un entero
+                String expresionRegular="[0-9]+";
+                System.out.print("Introduzca el tiempo de simulacion en segundos (1 - 36000): ");
+                cadenaAEvaluar =sc.next();
+                b=Pattern.matches(expresionRegular,cadenaAEvaluar);
+            }
+            while(!b);
+        
+            tiempoSimulacion=Integer.parseInt(cadenaAEvaluar);
+        }
+        while(tiempoSimulacion<1 || tiempoSimulacion>36000);
+       
+        return tiempoSimulacion;
+    
+    }
+    
     
     public static void main (String []args){
         
         EntradaDatos a=new EntradaDatos();
         System.out.println("Cantidad de Telefonos: "+a.getCantTelefonos());
         System.out.println("Cantidad de enlaces: "+a.getCantEnlaces());  
+        System.out.println("Tiempo de simulacion: "+a.getTiempoSimulacion());  
     }
     
 }
