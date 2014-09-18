@@ -30,6 +30,7 @@ public class Ejercicio2v1 {
     protected Conmutador con;
     protected int exitosas; //cantidad de exitosas
     protected int faltaEnlace; //cantidad de falta de enlace
+    protected int error; // 1=falta de origen
     
     public Ejercicio2v1(int MX, int cantEnlaces, int cantTelefonos){
         this.AT=0;
@@ -90,7 +91,7 @@ public class Ejercicio2v1 {
                 int v[];
                 //pongo este codigo para cortar el bucle infinito cuando no encuentra origen
                 if(con.existeTelefonoLibre()==0){
-                    System.out.println("\nNO EXISTE ORIGEN LIBRE. SIMULACION INTERRUMPIDA");
+                    error=1;
                     break;
                 }
                 //fin
@@ -249,14 +250,15 @@ public class Ejercicio2v1 {
     
     public void imprimirResultados(){
  
-        System.out.println("\n******** LISTADO DE CLIENTES PROCESADOS EN EL SISTEMA ***********\n");
+        System.out.println("******** LISTADO DE LLAMADAS PROCESADAS EN EL SISTEMA ********\n");
         System.out.println("Cantidad de enlaces: "+cantEnlaces);
         System.out.println("Cantidad de telefonos: "+cantTelefonos);
+        System.out.println("Tiempo de simulacion: "+MX+"\n");
         float proporcion=(float)exitosas/clientes.size();
         float tiempoEspera=0;
     
         for(int i=0; i<clientes.size(); i++){
-            System.out.println("Nro cliente:"+clientes.get(i).nroCliente+
+            System.out.println("Nro llamada:"+clientes.get(i).nroCliente+
                            " | Tiempo arribo:"+convertirAMinutos(clientes.get(i).tiempoArribo)+
                            " | Inicio Atencion:"+convertirAMinutos(clientes.get(i).incioAtencion)+
                            " | Tiempo salida:"+convertirAMinutos(clientes.get(i).tiempoSalida)+
@@ -272,8 +274,14 @@ public class Ejercicio2v1 {
    
         System.out.println("\nProporcion de exitosas: "+Math.rint(proporcion*1000)/1000);
         //Redondea a 3 decimales: https://ar.answers.yahoo.com/question/index?qid=20130520185213AAOxhOo
-        System.out.println("Tiempo promedio de espera (por falta de enlace): "+convertirAMinutos((float)tiempoEspera/faltaEnlace));
+        //System.out.println("Tiempo promedio de espera (por falta de enlace): "+convertirAMinutos((float)tiempoEspera/faltaEnlace));
         //No considera las Exitosas, solo las sin enlace.
+        //AGREGADO PARA ANALISIS DE RESULTADOS
+        if(faltaEnlace==0)System.out.println("Tiempo promedio de espera (por falta de enlace): 0 => No hubo llamadas sin enlace");
+        else System.out.println("Tiempo promedio de espera (por falta de enlace): "+(int)tiempoEspera/faltaEnlace);
+        
+        if(error==1) System.out.println("\n>>> SIMULACION INTERRUMPIDA: No se encontro origen libre");
+        
     
     }
     

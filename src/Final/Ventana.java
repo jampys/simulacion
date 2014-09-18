@@ -88,13 +88,13 @@ public class Ventana extends javax.swing.JFrame {
         jTFtiempoSimulacion.setNextFocusableComponent(jBsimular);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel1.setText("Cantidad de telefonos");
+        jLabel1.setText("Cantidad de teléfonos");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("Cantidad de enlaces");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel3.setText("Tiempo de simulacion");
+        jLabel3.setText("Tiempo de simulación");
 
         jTAresultados.setColumns(20);
         jTAresultados.setEditable(false);
@@ -108,20 +108,21 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("Numero entero entre 5 y 100");
+        jLabel4.setText("Número entero entre 5 y 100");
 
-        jLabel5.setText("Numero entero entre 1 y 10");
+        jLabel5.setText("Número entero entre 1 y 10");
 
-        jLabel7.setText("Numero entero entre 1 y 36000");
+        jLabel7.setText("Número entero entre 1 y 36000");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel6.setText("Resultado de la simulacion");
+        jLabel6.setText("Resultado de la simulación");
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tipo de simulacion", 0, 0, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tipo de simulación", 0, 0, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         buttonGroup1.add(jRBejercicio1);
         jRBejercicio1.setSelected(true);
         jRBejercicio1.setText("sin cola");
+        jRBejercicio1.setToolTipText("Las llamadas no exitosas se descartan");
         jRBejercicio1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRBejercicio1ActionPerformed(evt);
@@ -130,6 +131,7 @@ public class Ventana extends javax.swing.JFrame {
 
         buttonGroup1.add(jRBejercicio2);
         jRBejercicio2.setText("con cola");
+        jRBejercicio2.setToolTipText("Las llamadas sin enlace entran en cola FIFO");
         jRBejercicio2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRBejercicio2ActionPerformed(evt);
@@ -169,25 +171,24 @@ public class Ventana extends javax.swing.JFrame {
                         .addComponent(jBcerrar, javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 841, Short.MAX_VALUE)
                         .addComponent(jSeparator1)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
-                                .addGap(52, 52, 52)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jTFcantEnlaces, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTFcantTelefonos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTFtiempoSimulacion, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel7))
-                                .addGap(35, 35, 35)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(jLabel6)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel3))
+                            .addGap(52, 52, 52)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jTFcantEnlaces, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTFcantTelefonos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTFtiempoSimulacion, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabel7))
+                            .addGap(35, 35, 35)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
@@ -230,6 +231,7 @@ public class Ventana extends javax.swing.JFrame {
 
     private void jBsimularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBsimularActionPerformed
         // TODO add your handling code here:
+        jTAresultados.setText(""); //para limpiar el textArea
         if(validarCampos()){
             
             int tiempoSimulacion=Integer.parseInt(jTFtiempoSimulacion.getText());
@@ -333,55 +335,55 @@ public class Ventana extends javax.swing.JFrame {
 
 protected boolean validarCampos(){
         if (jTFcantTelefonos.getText().trim().equals("")) {
-            JOptionPane.showMessageDialog(this, "El campo Cantidad de Telefonos esta vacio");
+            JOptionPane.showMessageDialog(this, "El campo Cantidad de teléfonos está vacio");
             jTFcantTelefonos.requestFocus();
             return false;
         }
         
         if(!esNumerico(jTFcantTelefonos.getText())){
-            JOptionPane.showMessageDialog(this, "El campo Cantidad de Telefonos debe ser numérico");
+            JOptionPane.showMessageDialog(this, "El campo Cantidad de teléfonos debe ser numérico");
             jTFcantTelefonos.requestFocus();
             return false;
         }
         
         if(Integer.parseInt(jTFcantTelefonos.getText())<5 || Integer.parseInt(jTFcantTelefonos.getText())>100){
-            JOptionPane.showMessageDialog(this, "El campo Cantidad de Telefonos debe ser entre [5 - 100]");
+            JOptionPane.showMessageDialog(this, "El campo Cantidad de teléfonos debe estar comprendido entre [5 - 100]");
             jTFcantTelefonos.requestFocus();
             return false;
         }
         
         if (jTFcantEnlaces.getText().trim().equals("")) {
-            JOptionPane.showMessageDialog(this, "El campo Cantidad de Enlaces esta vacio");
+            JOptionPane.showMessageDialog(this, "El campo Cantidad de enlaces está vacio");
             jTFcantEnlaces.requestFocus();
             return false;
         }
         
         if(!esNumerico(jTFcantEnlaces.getText())){
-            JOptionPane.showMessageDialog(this, "El campo Cantidad de Enlaces debe ser numérico");
+            JOptionPane.showMessageDialog(this, "El campo Cantidad de enlaces debe ser numérico");
             jTFcantEnlaces.requestFocus();
             return false;
         }
         
         if(Integer.parseInt(jTFcantEnlaces.getText())<1 || Integer.parseInt(jTFcantEnlaces.getText())>10){
-            JOptionPane.showMessageDialog(this, "El campo Cantidad de Enlaces debe ser entre [1 - 10]");
+            JOptionPane.showMessageDialog(this, "El campo Cantidad de Enlaces debe estar comprendido entre [1 - 10]");
             jTFcantEnlaces.requestFocus();
             return false;
         }
         
         if (jTFtiempoSimulacion.getText().trim().equals("")) {
-            JOptionPane.showMessageDialog(this, "El campo Tiempo de simulacion esta vacio");
+            JOptionPane.showMessageDialog(this, "El campo Tiempo de simulación está vacio");
             jTFtiempoSimulacion.requestFocus();
             return false;
         }
         
         if(!esNumerico(jTFtiempoSimulacion.getText())){
-            JOptionPane.showMessageDialog(this, "El campo Tiempo de simulacion debe ser numérico");
+            JOptionPane.showMessageDialog(this, "El campo Tiempo de simulación debe ser numérico");
             jTFtiempoSimulacion.requestFocus();
             return false;
         }
         
         if(Integer.parseInt(jTFtiempoSimulacion.getText())<1 || Integer.parseInt(jTFtiempoSimulacion.getText())>36000){
-            JOptionPane.showMessageDialog(this, "El campo Tiempo de simulacion debe ser entre [1 - 36000]");
+            JOptionPane.showMessageDialog(this, "El campo Tiempo de simulacion debe estar comprendido entre [1 - 36000]");
             jTFtiempoSimulacion.requestFocus();
             return false;
         }
