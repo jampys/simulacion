@@ -26,13 +26,26 @@ public class Tiempos {
         return (float)ts;
     }
     
-    public static String convertirAMinutos(float seg){
+    public static String convertirAMinutos(int seg){
 //        recibe el tiempo en segundos y lo convierte en minutos y segundos.
 //        es solo para darle formato a las salidas por pantalla. En caso de tener que operar con tiempos
 //        conviente previamente pasarlos a segundos, operar y luego volver a convertirlos a minutos
-        int minutos=(int)seg/60;
-        int segundos=(int)seg%60;
-        String tiempo=Integer.toString(minutos)+":"+Integer.toString(segundos);
+        int horas=seg/3600;
+        int minutos=(seg%3600)/60;
+        int segundos=(seg%3600)%60;
+        //Agregando formato
+        String horasS="";
+        String minutosS="";
+        String segundosS="";
+        if(horas<10) horasS="0"+Integer.toString(horas);
+        else horasS=Integer.toString(horas);
+        if(minutos<10) minutosS="0"+Integer.toString(minutos);
+        else minutosS=Integer.toString(minutos);
+        if(segundos<10) segundosS="0"+Integer.toString(segundos);
+        else segundosS=Integer.toString(segundos);
+        //fin agregando formato
+        
+        String tiempo=horasS+":"+minutosS+":"+segundosS;
         return tiempo;
     }
     

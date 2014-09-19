@@ -75,6 +75,7 @@ public class Ventana extends javax.swing.JFrame {
         setTitle("SIMULADOR DE CONMUTADOR TELEFONICO");
 
         jBsimular.setText("Simular");
+        jBsimular.setToolTipText("Presione para iniciar la simulación");
         jBsimular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBsimularActionPerformed(evt);

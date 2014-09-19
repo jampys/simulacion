@@ -110,6 +110,7 @@
     <Component class="javax.swing.JButton" name="jBsimular">
       <Properties>
         <Property name="text" type="java.lang.String" value="Simular"/>
+        <Property name="toolTipText" type="java.lang.String" value="Presione para iniciar la simulaci&#xf3;n"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBsimularActionPerformed"/>
