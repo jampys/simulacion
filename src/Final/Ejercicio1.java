@@ -1,8 +1,8 @@
 
 package Final;
 
+import FinalSoporte.EntradaDatos;
 import java.util.ArrayList;
-import FinalPruebas.*;
 
 
 public class Ejercicio1 {

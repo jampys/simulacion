@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package FinalPruebas;
+package FinalSoporte;
 
 /**
  *
@@ -10,7 +10,7 @@ package FinalPruebas;
  */
 public class Tiempos {
     
-    public float generarTS(){ //GENERAR LOS TIEMPOS DE SERVICIO
+    public static float generarTS(){ //GENERAR LOS TIEMPOS DE SERVICIO
         //variable aleatoria con distribucion de probabilidad exponencial con media 3 minutos (180 seg)
         double ts;
         float rnd=(float)Math.random();
@@ -18,7 +18,7 @@ public class Tiempos {
         return (float)ts;
     }
     
-    public float generarTE(){ //GENERAR LOS TIEMPOS ENTRE ARRIBOS
+    public static float generarTE(){ //GENERAR LOS TIEMPOS ENTRE ARRIBOS
         //variable aleatoria con distribucion de probabilidad exponencial con media 10seg
         double ts;
         float rnd=(float)Math.random();
@@ -26,13 +26,13 @@ public class Tiempos {
         return (float)ts;
     }
     
-    public static String convertirAMinutos(int seg){
+    public static String convertirAMinutos(float seg){
 //        recibe el tiempo en segundos y lo convierte en minutos y segundos.
 //        es solo para darle formato a las salidas por pantalla. En caso de tener que operar con tiempos
 //        conviente previamente pasarlos a segundos, operar y luego volver a convertirlos a minutos
-        int horas=seg/3600;
-        int minutos=(seg%3600)/60;
-        int segundos=(seg%3600)%60;
+        int horas=(int)seg/3600;
+        int minutos=(int)(seg%3600)/60;
+        int segundos=(int)(seg%3600)%60;
         //Agregando formato
         String horasS="";
         String minutosS="";

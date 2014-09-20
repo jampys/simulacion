@@ -1,8 +1,9 @@
 
 package Final;
 
+import FinalSoporte.Tiempos;
+import FinalSoporte.EntradaDatos;
 import java.util.ArrayList;
-import FinalPruebas.*;
 
 
 public class Ejercicio1v1 {
@@ -47,24 +48,7 @@ public class Ejercicio1v1 {
         eventos.add(primerEvento);
     }
     
-    
-    public float generarTS(){ //GENERAR LOS TIEMPOS DE SERVICIO
-        //variable aleatoria con distribucion de probabilidad exponencial con media 3 minutos (180 seg)
-        double ts;
-        float rnd=(float)Math.random();
-        ts=-180*Math.log(1-rnd);
-        return (float)ts;
-    }
-    
-    public float generarTE(){ //GENERAR LOS TIEMPOS ENTRE ARRIBOS
-        //variable aleatoria con distribucion de probabilidad exponencial con media 10seg
-        double ts;
-        float rnd=(float)Math.random();
-        ts=-10*Math.log(1-rnd);
-        return (float)ts;
-    }
-    
-    
+      
     public void simular(){
         do{
             //Agregado pra encontrar defecto
@@ -104,7 +88,7 @@ public class Ejercicio1v1 {
                     con.busyTelefono(destino);
                     //Fin agregados
                     
-                    float tiempoSalida=TM+this.generarTS(); //calcula el tiempo de salida
+                    float tiempoSalida=TM+Tiempos.generarTS(); //calcula el tiempo de salida
                     Evento eve=new Evento(tiempoSalida, 2, NA-1);
                     eventos.add(eve);
                     
@@ -123,7 +107,7 @@ public class Ejercicio1v1 {
                     
                 }
    
-                float proximoArribo=TM+this.generarTE(); //calcula el proximo arribo
+                float proximoArribo=TM+Tiempos.generarTE(); //calcula el proximo arribo
                 Evento eve1=new Evento(proximoArribo, 1, NA);
                 eventos.add(eve1);
              
@@ -203,9 +187,9 @@ public class Ejercicio1v1 {
     
     for(int i=0; i<clientes.size(); i++){
         System.out.println("Nro llamada:"+clientes.get(i).nroCliente+
-                           " | Tiempo arribo:"+convertirAMinutos(clientes.get(i).tiempoArribo)+
-                           " | Inicio Atencion:"+convertirAMinutos(clientes.get(i).incioAtencion)+
-                           " | Tiempo salida:"+convertirAMinutos(clientes.get(i).tiempoSalida)+
+                           " | Tiempo arribo:"+Tiempos.convertirAMinutos(clientes.get(i).tiempoArribo)+
+                           " | Inicio Atencion:"+Tiempos.convertirAMinutos(clientes.get(i).incioAtencion)+
+                           " | Tiempo salida:"+Tiempos.convertirAMinutos(clientes.get(i).tiempoSalida)+
                            " | Origen:"+clientes.get(i).origen+
                            " | Destino: "+clientes.get(i).destino+
                            " | Estado: "+clientes.get(i).estado);
@@ -235,31 +219,12 @@ public class Ejercicio1v1 {
     public void imprimirListaEventos(){
         System.out.println("******LISTA EVENTOS*******");
         for(int i=0; i<eventos.size(); i++){   
-            System.out.println("Tipo evento "+eventos.get(i).tipoEvento +" - Tiempo evento "+convertirAMinutos(eventos.get(i).tiempo));
+            System.out.println("Tipo evento "+eventos.get(i).tipoEvento +" - Tiempo evento "+Tiempos.convertirAMinutos(eventos.get(i).tiempo));
         }
         System.out.println("");
     }
     
-    public static String convertirAMinutos(float seg){
-//        recibe el tiempo en segundos y lo convierte en minutos y segundos.
-//        es solo para darle formato a las salidas por pantalla. En caso de tener que operar con tiempos
-//        conviente previamente pasarlos a segundos, operar y luego volver a convertirlos a minutos
-        int minutos=(int)seg/60;
-        int segundos=(int)seg%60;
-        //Agregando formato
-        String minutosS="";
-        String segundosS="";
-        if(minutos<10) minutosS="0"+Integer.toString(minutos);
-        else minutosS=Integer.toString(minutos);
-        if(segundos<10) segundosS="0"+Integer.toString(segundos);
-        else segundosS=Integer.toString(segundos);
-        //fin agregando formato
-        
-        String tiempo=minutosS+":"+segundosS;
-        return tiempo;
-    }
-    
-    
+      
     public static void main(String[] args) {
         
         EntradaDatos ed=new EntradaDatos();

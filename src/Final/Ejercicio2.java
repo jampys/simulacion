@@ -1,7 +1,7 @@
 
 package Final;
 
-import FinalPruebas.EntradaDatos;
+import FinalSoporte.EntradaDatos;
 import java.util.ArrayList;
 
 
