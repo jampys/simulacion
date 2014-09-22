@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import javax.swing.JTextArea;
 import java.io.PrintStream;
+import javax.swing.*;
 
 
 /*
@@ -21,6 +22,7 @@ import java.io.PrintStream;
 public class Ventana extends javax.swing.JFrame {
     //private final JTextArea textArea;
     private PrintStream standardOut;
+    private int tss;
 
     /**
      * Creates new form Ventana
@@ -37,8 +39,11 @@ public class Ventana extends javax.swing.JFrame {
 	System.setOut(printStream);
 	System.setErr(printStream);
         
-        //add(textArea);
+        jSpHoras.setEditor(new javax.swing.JSpinner.DefaultEditor(jSpHoras)); //para hacer el spinner no editable
+        jSpMinutos.setEditor(new javax.swing.JSpinner.DefaultEditor(jSpMinutos)); //para hacer el spinner no editable
+        jSpSegundos.setEditor(new javax.swing.JSpinner.DefaultEditor(jSpSegundos)); //para hacer el spinner no editable
         
+        //setLookAndFeel();
         
     }
 
@@ -55,7 +60,6 @@ public class Ventana extends javax.swing.JFrame {
         jBsimular = new javax.swing.JButton();
         jTFcantTelefonos = new javax.swing.JTextField();
         jTFcantEnlaces = new javax.swing.JTextField();
-        jTFtiempoSimulacion = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -70,9 +74,16 @@ public class Ventana extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jRBejercicio1 = new javax.swing.JRadioButton();
         jRBejercicio2 = new javax.swing.JRadioButton();
+        jSpHoras = new javax.swing.JSpinner();
+        jSpMinutos = new javax.swing.JSpinner();
+        jSpSegundos = new javax.swing.JSpinner();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("SIMULADOR DE CONMUTADOR TELEFONICO");
+        setTitle("SIM-CON");
+        setIconImage(new ImageIcon(getClass().getResource("../FinalSoporte/phone.png")).getImage());
 
         jBsimular.setText("Simular");
         jBsimular.setToolTipText("Presione para iniciar la simulación");
@@ -83,10 +94,6 @@ public class Ventana extends javax.swing.JFrame {
         });
 
         jTFcantTelefonos.setNextFocusableComponent(jTFcantEnlaces);
-
-        jTFcantEnlaces.setNextFocusableComponent(jTFtiempoSimulacion);
-
-        jTFtiempoSimulacion.setNextFocusableComponent(jBsimular);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Cantidad de teléfonos");
@@ -103,17 +110,21 @@ public class Ventana extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTAresultados);
 
         jBcerrar.setText("Cerrar");
+        jBcerrar.setToolTipText("Presione para salir de la aplicación");
         jBcerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBcerrarActionPerformed(evt);
             }
         });
 
-        jLabel4.setText("Número entero entre 5 y 100");
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/FinalSoporte/Get-Info-icon_1.png"))); // NOI18N
+        jLabel4.setToolTipText("Número entero entre 5 y 100");
 
-        jLabel5.setText("Número entero entre 1 y 10");
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/FinalSoporte/Get-Info-icon_1.png"))); // NOI18N
+        jLabel5.setToolTipText("Número entero entre 1 y 10");
 
-        jLabel7.setText("Número entero entre 1 y 36000");
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/FinalSoporte/Get-Info-icon_1.png"))); // NOI18N
+        jLabel7.setToolTipText("Máximo 10 horas");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel6.setText("Resultado de la simulación");
@@ -123,7 +134,7 @@ public class Ventana extends javax.swing.JFrame {
         buttonGroup1.add(jRBejercicio1);
         jRBejercicio1.setSelected(true);
         jRBejercicio1.setText("sin cola");
-        jRBejercicio1.setToolTipText("Las llamadas no exitosas se descartan");
+        jRBejercicio1.setToolTipText("Las llamadas sin enlace u ocupadas se descartan");
         jRBejercicio1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRBejercicio1ActionPerformed(evt);
@@ -148,7 +159,7 @@ public class Ventana extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jRBejercicio1)
                     .addComponent(jRBejercicio2))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,62 +171,113 @@ public class Ventana extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jSpHoras.setModel(new javax.swing.SpinnerListModel(new String[] {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10"}));
+
+        jSpMinutos.setModel(new javax.swing.SpinnerListModel(new String[] {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59"}));
+
+        jSpSegundos.setModel(new javax.swing.SpinnerListModel(new String[] {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59"}));
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
+        jLabel8.setText("horas");
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
+        jLabel9.setText("minutos");
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
+        jLabel10.setText("segundos");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(22, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jBsimular)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jBcerrar, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 841, Short.MAX_VALUE)
-                        .addComponent(jSeparator1)
-                        .addComponent(jLabel6)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel1)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel3))
-                            .addGap(52, 52, 52)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(175, 175, 175)
+                        .addComponent(jTFcantTelefonos, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
+                        .addGap(67, 67, 67)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(262, 262, 262)
+                        .addComponent(jBcerrar))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 841, Short.MAX_VALUE)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(41, 41, 41)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jTFcantEnlaces, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTFcantTelefonos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTFtiempoSimulacion, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel7))
-                            .addGap(35, 35, 35)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jSpHoras, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel8))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jSpMinutos, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jSpSegundos, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel7))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel10)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jBsimular)))))))
                 .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(jBsimular))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jTFcantTelefonos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel1)
+                                        .addComponent(jTFcantTelefonos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel4))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jTFcantEnlaces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel2))
+                                    .addComponent(jLabel5))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(22, 22, 22)
+                                        .addComponent(jLabel7))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jSpHoras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jSpMinutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jSpSegundos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel3)))))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTFcantEnlaces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel5))
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jTFtiempoSimulacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))))
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10))
+                        .addGap(0, 8, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBsimular)))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -224,7 +286,7 @@ public class Ventana extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jBcerrar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -235,7 +297,7 @@ public class Ventana extends javax.swing.JFrame {
         jTAresultados.setText(""); //para limpiar el textArea
         if(validarCampos()){
             
-            int tiempoSimulacion=Integer.parseInt(jTFtiempoSimulacion.getText());
+            int tiempoSimulacion=tss;
             int cantEnlaces=Integer.parseInt(jTFcantEnlaces.getText());
             int cantTelefonos=Integer.parseInt(jTFcantTelefonos.getText());
             
@@ -316,25 +378,33 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JButton jBcerrar;
     private javax.swing.JButton jBsimular;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JRadioButton jRBejercicio1;
     private javax.swing.JRadioButton jRBejercicio2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSpinner jSpHoras;
+    private javax.swing.JSpinner jSpMinutos;
+    private javax.swing.JSpinner jSpSegundos;
     private javax.swing.JTextArea jTAresultados;
     private javax.swing.JTextField jTFcantEnlaces;
     private javax.swing.JTextField jTFcantTelefonos;
-    private javax.swing.JTextField jTFtiempoSimulacion;
     // End of variables declaration//GEN-END:variables
 
 
 protected boolean validarCampos(){
+    
+    tss=Integer.parseInt(jSpHoras.getValue().toString())*3600+Integer.parseInt(jSpMinutos.getValue().toString())*60+Integer.parseInt(jSpSegundos.getValue().toString());
+    
         if (jTFcantTelefonos.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "El campo Cantidad de teléfonos está vacio");
             jTFcantTelefonos.requestFocus();
@@ -371,21 +441,21 @@ protected boolean validarCampos(){
             return false;
         }
         
-        if (jTFtiempoSimulacion.getText().trim().equals("")) {
-            JOptionPane.showMessageDialog(this, "El campo Tiempo de simulación está vacio");
-            jTFtiempoSimulacion.requestFocus();
-            return false;
-        }
+//        if (jTFtiempoSimulacion.getText().trim().equals("")) {
+//            JOptionPane.showMessageDialog(this, "El campo Tiempo de simulación está vacio");
+//            jTFtiempoSimulacion.requestFocus();
+//            return false;
+//        }
+//        
+//        if(!esNumerico(jTFtiempoSimulacion.getText())){
+//            JOptionPane.showMessageDialog(this, "El campo Tiempo de simulación debe ser numérico");
+//            jTFtiempoSimulacion.requestFocus();
+//            return false;
+//        }
         
-        if(!esNumerico(jTFtiempoSimulacion.getText())){
-            JOptionPane.showMessageDialog(this, "El campo Tiempo de simulación debe ser numérico");
-            jTFtiempoSimulacion.requestFocus();
-            return false;
-        }
-        
-        if(Integer.parseInt(jTFtiempoSimulacion.getText())<1 || Integer.parseInt(jTFtiempoSimulacion.getText())>36000){
-            JOptionPane.showMessageDialog(this, "El campo Tiempo de simulacion debe estar comprendido entre [1 - 36000]");
-            jTFtiempoSimulacion.requestFocus();
+        if(tss<1 || tss>36000){
+            JOptionPane.showMessageDialog(this, "El Tiempo de simulacion debe estar comprendido entre 1 seg y 10 hs");
+            //jTFtiempoSimulacion.requestFocus();
             return false;
         }
         
@@ -423,6 +493,16 @@ protected boolean validarCampos(){
     
     //******************** FIN INNER CLASS ************************
     
+    private void setLookAndFeel() {
+        try {
+            UIManager.setLookAndFeel(
+                UIManager.getSystemLookAndFeelClassName());
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (Exception e) {
+            System.err.println("No se ha podido usar el sistema "
+                + "look and feel: " + e);
+        }
+    }
         
 
 }
