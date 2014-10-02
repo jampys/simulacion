@@ -182,7 +182,7 @@ public class Ejercicio1v1 {
     System.out.println("******** LISTADO DE LLAMADAS PROCESADAS EN EL SISTEMA ********\n");
     System.out.println("Cantidad de enlaces: "+cantEnlaces);
     System.out.println("Cantidad de telefonos: "+cantTelefonos);
-    System.out.println("Tiempo de simulacion: "+MX+"\n");
+    System.out.println("Tiempo de simulacion: "+Tiempos.convertirAMinutos(MX)+"\n");
     float proporcion=(float)exitosas/clientes.size();
     
     for(int i=0; i<clientes.size(); i++){

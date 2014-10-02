@@ -237,7 +237,7 @@ public class Ejercicio2v1 {
         System.out.println("******** LISTADO DE LLAMADAS PROCESADAS EN EL SISTEMA ********\n");
         System.out.println("Cantidad de enlaces: "+cantEnlaces);
         System.out.println("Cantidad de telefonos: "+cantTelefonos);
-        System.out.println("Tiempo de simulacion: "+MX+"\n");
+        System.out.println("Tiempo de simulacion: "+Tiempos.convertirAMinutos(MX)+"\n");
         float proporcion=(float)exitosas/clientes.size();
         float tiempoEspera=0;
     
@@ -262,7 +262,7 @@ public class Ejercicio2v1 {
         //No considera las Exitosas, solo las sin enlace.
         //AGREGADO PARA ANALISIS DE RESULTADOS
         if(faltaEnlace==0)System.out.println("Tiempo promedio de espera (por falta de enlace): 0 => No hubo llamadas sin enlace");
-        else System.out.println("Tiempo promedio de espera (por falta de enlace): "+(int)tiempoEspera/faltaEnlace);
+        else System.out.println("Tiempo promedio de espera (por falta de enlace): "+Tiempos.convertirAMinutos((int)tiempoEspera/faltaEnlace));
         
         if(error==1) System.out.println("\n>>> SIMULACION INTERRUMPIDA: No se encontro origen libre");
         

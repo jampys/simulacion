@@ -57,7 +57,7 @@ public class Tiempos {
             System.out.println(ti.generarTE());
         }
         
-        System.out.println(ti.convertirAMinutos(1000));
+        System.out.println(ti.convertirAMinutos(1001));
     }
     
 }

@@ -83,7 +83,6 @@ public class Ventana extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SIM-CON");
-        setIconImage(new ImageIcon(getClass().getResource("../FinalSoporte/phone.png")).getImage());
 
         jBsimular.setText("Simular");
         jBsimular.setToolTipText("Presione para iniciar la simulación");
